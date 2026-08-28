@@ -4,339 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UC 00609 - Desenvolver de aplicações móveis (plataforma Android)</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        padding: 20px;
-        font-family: 'Segoe UI', Roboto, sans-serif;
-      }
-      .book-viewport { 
-        width: 100%; 
-        margin: 0 auto; 
-        max-width: 1200px;
-        perspective: 1000px; 
-        font-family: 'Segoe UI', Roboto, sans-serif; 
-        min-height: 600px; 
-        display: flex; 
-        flex-direction: column; 
-      } 
-      .book-container { 
-        display: flex; 
-        background: #fff; 
-        border-radius: 16px; 
-        position: relative; 
-        flex-grow: 1; 
-        min-height: 600px; 
-        border: 2px solid #81c784; 
-        overflow: hidden; 
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); 
-        width: 100%; 
-        box-sizing: border-box; 
-      } 
-      .book-page { 
-        padding: 40px; 
-        box-sizing: border-box; 
-        display: flex; 
-        flex-direction: column; 
-        overflow-y: auto; 
-      } 
-      .page-left { 
-        flex: 0 0 300px; 
-        border-right: none; 
-        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); 
-        border-top-left-radius: 12px; 
-        border-bottom-left-radius: 12px; 
-      } 
-      .page-right { 
-        flex: 1; 
-        background: #ffffff; 
-        border-top-right-radius: 12px; 
-        border-bottom-right-radius: 12px; 
-      } 
-      .book-main-title { 
-        color: #0f172a; 
-        font-size: 28px; 
-        margin-bottom: 8px; 
-        margin-top: 0;
-        text-align: center; 
-        font-weight: 800; 
-      } 
-      .uc-subtitle { 
-        text-align: center; 
-        font-size: 14px; 
-        color: #64748b; 
-        margin-bottom: 25px; 
-        font-weight: 500; 
-      } 
-      .divider1 { 
-        height: 4px; 
-        background: #81c784; 
-        width: 40px; 
-        margin: 0 auto 30px; 
-        border-radius: 2px; 
-      } 
-      .book-toc { 
-        display: flex; 
-        flex-direction: column; 
-        gap: 12px; 
-      } 
-      .toc-item { 
-        padding: 14px 20px; 
-        background: #fff; 
-        border-radius: 10px; 
-        cursor: pointer; 
-        transition: all 0.3s ease; 
-        font-size: 14px; 
-        border: 1px solid #e2e8f0; 
-        display: flex; 
-        align-items: center; 
-        color: #475569; 
-        font-weight: 600; 
-      } 
-      .toc-item span { 
-        font-weight: 800; 
-        margin-right: 12px; 
-        color: #cbd5e1; 
-      } 
-      .toc-item:hover { 
-        transform: translateX(5px); 
-        border-color: #81c784; 
-        color: #2e7d32; 
-      } 
-      .page-footer { 
-        margin-top: auto; 
-        font-size: 10px; 
-        text-transform: uppercase; 
-        color: #94a3b8; 
-        text-align: center; 
-        letter-spacing: 2px; 
-        padding-top: 20px; 
-      } 
-      
-      .activities-grid { 
-        display: grid; 
-        grid-template-columns: 1fr; 
-        gap: 16px; 
-        margin-top: 10px; 
-      } 
-      .activity-card { 
-        background: #f8fafc; 
-        border: 1px solid #e2e8f0; 
-        border-radius: 12px; 
-        padding: 16px; 
-        position: relative; 
-        transition: all 0.3s ease; 
-        display: flex; 
-        align-items: center; 
-        gap: 15px; 
-        overflow: visible; 
-        width: 100%; 
-        box-sizing: border-box; 
-      } 
-      .card-tag { 
-        position: absolute; 
-        top: -10px; 
-        left: 15px; 
-        background: #81c784; 
-        color: #fff; 
-        font-size: 9px; 
-        font-weight: 800; 
-        padding: 2px 10px; 
-        border-radius: 20px; 
-        text-transform: uppercase; 
-        z-index: 5; 
-      } 
-      .card-icon { 
-        width: 40px; 
-        height: 40px; 
-        background: #f1f8e9; 
-        border-radius: 8px; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        font-size: 20px; 
-        flex-shrink: 0; 
-        flex-direction: column; 
-      } 
-      .card-info h4 { 
-        margin: 0; 
-        font-size: 14px; 
-        color: #1e293b; 
-      } 
-      .card-date { 
-        font-size: 11px; 
-        color: #94a3b8; 
-        margin-top: 4px; 
-        display: block; 
-      } 
-      .card-action-btn { 
-        margin-left: auto; 
-        text-decoration: none; 
-        background: #81c784; 
-        color: #fff; 
-        font-size: 11px; 
-        font-weight: 700; 
-        padding: 8px 15px; 
-        border-radius: 8px; 
-        transition: opacity 0.2s; 
-      } 
-      .card-action-btn:hover { 
-        opacity: 0.8; 
-      }
-
-      .page-radio, .sub-radio { 
-        display: none; 
-      } 
-      .content-panel { 
-        display: none; 
-        animation: fadeIn 0.4s ease; 
-        flex-grow: 1; 
-      } 
-      @keyframes fadeIn { 
-        from { opacity: 0; transform: translateY(10px); } 
-        to { opacity: 1; transform: translateY(0); } 
-      } 
-      .chapter-title { 
-        color: #0f172a; 
-        font-size: 24px; 
-        margin-bottom: 25px; 
-        margin-top: 0;
-        font-weight: 800; 
-      } 
-      .sub-menu { 
-        display: flex; 
-        gap: 10px; 
-        margin-bottom: 25px; 
-        border-bottom: 2px solid #f1f5f9; 
-        flex-wrap: wrap; 
-      } 
-      .sub-label { 
-        padding: 10px 0; 
-        font-size: 12px; 
-        cursor: pointer; 
-        color: #94a3b8; 
-        font-weight: 700; 
-        transition: all 0.3s; 
-        position: relative; 
-        margin-right: 20px; 
-      } 
-      .sub-label:after { 
-        content: ''; 
-        position: absolute; 
-        bottom: -2px; 
-        left: 0; 
-        width: 0; 
-        height: 2px; 
-        background: #81c784; 
-        transition: width 0.3s; 
-      } 
-      .sub-panel { 
-        display: none; 
-      } 
-      
-      #tab1:checked ~ .book-container .panel-1, 
-      #tab2:checked ~ .book-container .panel-2, 
-      #tab3:checked ~ .book-container .panel-3 { 
-        display: flex; 
-        flex-direction: column; 
-      } 
-      
-      #tab1:checked ~ .book-container .toc-item[for="tab1"], 
-      #tab2:checked ~ .book-container .toc-item[for="tab2"], 
-      #tab3:checked ~ .book-container .toc-item[for="tab3"] { 
-        background: #81c784; 
-        color: #fff; 
-        border-color: #81c784; 
-      } 
-      #tab1:checked ~ .book-container .toc-item[for="tab1"] span,
-      #tab2:checked ~ .book-container .toc-item[for="tab2"] span,
-      #tab3:checked ~ .book-container .toc-item[for="tab3"] span { 
-        color: rgba(255,255,255,0.6); 
-      }
-
-      #sub1-1:checked ~ .sub-menu label[for="sub1-1"], 
-      #sub1-2:checked ~ .sub-menu label[for="sub1-2"], 
-      #sub1-3:checked ~ .sub-menu label[for="sub1-3"], 
-      #sub1-4:checked ~ .sub-menu label[for="sub1-4"],
-      #sub2-1:checked ~ .sub-menu label[for="sub2-1"], 
-      #sub2-2:checked ~ .sub-menu label[for="sub2-2"],
-      #sub3-1:checked ~ .sub-menu label[for="sub3-1"], 
-      #sub3-2:checked ~ .sub-menu label[for="sub3-2"] { 
-        color: #2e7d32; 
-      } 
-      
-      #sub1-1:checked ~ .sub-menu label[for="sub1-1"]:after, 
-      #sub1-2:checked ~ .sub-menu label[for="sub1-2"]:after, 
-      #sub1-3:checked ~ .sub-menu label[for="sub1-3"]:after, 
-      #sub1-4:checked ~ .sub-menu label[for="sub1-4"]:after,
-      #sub2-1:checked ~ .sub-menu label[for="sub2-1"]:after, 
-      #sub2-2:checked ~ .sub-menu label[for="sub2-2"]:after,
-      #sub3-1:checked ~ .sub-menu label[for="sub3-1"]:after, 
-      #sub3-2:checked ~ .sub-menu label[for="sub3-2"]:after { 
-        width: 100%; 
-      } 
-
-      #sub1-1:checked ~ .sub-content-area .sub-panel-1, 
-      #sub1-2:checked ~ .sub-content-area .sub-panel-2, 
-      #sub1-3:checked ~ .sub-content-area .sub-panel-3, 
-      #sub1-4:checked ~ .sub-content-area .sub-panel-4,
-      #sub2-1:checked ~ .sub-content-area .sub-panel-1, 
-      #sub2-2:checked ~ .sub-content-area .sub-panel-2,
-      #sub3-1:checked ~ .sub-content-area .sub-panel-1, 
-      #sub3-2:checked ~ .sub-content-area .sub-panel-2 { 
-        display: block; 
-      } 
-
-      .list-style { 
-        padding-left: 18px; 
-      }
-      .list-style li { 
-        font-size: 14px; 
-        color: #475569; 
-        margin-bottom: 12px; 
-        line-height: 1.6; 
-      } 
-      .section-sub { 
-        font-size: 16px; 
-        color: #1e293b; 
-        margin-bottom: 15px; 
-        margin-top: 0;
-        font-weight: 700; 
-      } 
-      .page-text { 
-        font-size: 15px; 
-        line-height: 1.8; 
-        color: #475569; 
-      }
-
-      @media (max-width: 900px) { 
-        .book-container { 
-          flex-direction: column; 
-          height: auto; 
-          min-height: auto; 
-          border: 2px solid #81c784; 
-          border-radius: 16px; 
-        } 
-        .page-left, .page-right { 
-          flex: 1 1 auto; 
-          width: 100%; 
-          border: none; 
-          padding: 30px; 
-        } 
-        .page-left { 
-          border-bottom: 1px solid #f1f5f9; 
-          flex: 0 0 auto; 
-          border-radius: 12px 12px 0 0; 
-        }
-        .page-right { 
-          padding-top: 10px; 
-          border-radius: 0 0 12px 12px; 
-        }
-      }
-    </style>
 </head>
 <body>
 
@@ -518,6 +185,83 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  (function() {
+    var cssRules = `
+      .book-viewport { width: 100%; margin: 0; perspective: 1000px; font-family: 'Segoe UI', Roboto, sans-serif; min-height: 600px; display: flex; flex-direction: column; } 
+      .book-container { display: flex; background: #fff; border-radius: 16px; position: relative; flex-grow: 1; min-height: 600px; border: 2px solid #81c784; overflow: hidden; box-shadow: none; width: 100%; box-sizing: border-box; } 
+      .book-page { padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; overflow-y: auto; } 
+      .page-left { flex: 0 0 300px; border-right: none; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-top-left-radius: 12px; border-bottom-left-radius: 12px; } 
+      .page-right { flex: 1; background: #ffffff; border-top-right-radius: 12px; border-bottom-right-radius: 12px; } 
+      .book-main-title { color: #0f172a; font-size: 28px; margin-bottom: 8px; text-align: center; font-weight: 800; } 
+      .uc-subtitle { text-align: center; font-size: 14px; color: #64748b; margin-bottom: 25px; font-weight: 500; } 
+      .divider1 { height: 4px; background: #81c784; width: 40px; margin: 0 auto 30px; border-radius: 2px; } 
+      .book-toc { display: flex; flex-direction: column; gap: 12px; } 
+      .toc-item { padding: 14px 20px; background: #fff; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-size: 14px; border: 1px solid #e2e8f0; display: flex; align-items: center; color: #475569; font-weight: 600; } 
+      .toc-item span { font-weight: 800; margin-right: 12px; color: #cbd5e1; } 
+      .toc-item:hover { transform: translateX(5px); border-color: #81c784; color: #2e7d32; } 
+      .page-footer { margin-top: auto; font-size: 10px; text-transform: uppercase; color: #94a3b8; text-align: center; letter-spacing: 2px; padding-top: 20px; } 
+      
+      .activities-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 10px; } 
+      .activity-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; position: relative; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; overflow: visible; width: 100%; box-sizing: border-box; } 
+      .card-tag { position: absolute; top: -10px; left: 15px; background: #81c784; color: #fff; font-size: 9px; font-weight: 800; padding: 2px 10px; border-radius: 20px; text-transform: uppercase; z-index: 5; } 
+      .card-icon { width: 40px; height: 40px; background: #f1f8e9; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; flex-direction: column; } 
+      .card-info h4 { margin: 0; font-size: 14px; color: #1e293b; } 
+      .card-date { font-size: 11px; color: #94a3b8; margin-top: 4px; display: block; } 
+      .card-action-btn { margin-left: auto; text-decoration: none; background: #81c784; color: #fff; font-size: 11px; font-weight: 700; padding: 8px 15px; border-radius: 8px; transition: opacity 0.2s; } 
+      .card-action-btn:hover { opacity: 0.8; }
+
+      .page-radio, .sub-radio { display: none; } 
+      .content-panel { display: none; animation: fadeIn 0.4s ease; flex-grow: 1; } 
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } } 
+      .chapter-title { color: #0f172a; font-size: 24px; margin-bottom: 25px; font-weight: 800; } 
+      .sub-menu { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; flex-wrap: wrap; } 
+      .sub-label { padding: 10px 0; font-size: 12px; cursor: pointer; color: #94a3b8; font-weight: 700; transition: all 0.3s; position: relative; margin-right: 20px; } 
+      .sub-label:after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #81c784; transition: width 0.3s; } 
+      .sub-panel { display: none; } 
+      
+      #tab1:checked ~ .book-container .panel-1, 
+      #tab2:checked ~ .book-container .panel-2, 
+      #tab3:checked ~ .book-container .panel-3 { display: flex; flex-direction: column; } 
+      
+      #tab1:checked ~ .book-container .toc-item[for="tab1"], 
+      #tab2:checked ~ .book-container .toc-item[for="tab2"], 
+      #tab3:checked ~ .book-container .toc-item[for="tab3"] { background: #81c784; color: #fff; border-color: #81c784; } 
+      #tab1:checked ~ .book-container .toc-item[for="tab1"] span,
+      #tab2:checked ~ .book-container .toc-item[for="tab2"] span,
+      #tab3:checked ~ .book-container .toc-item[for="tab3"] span { color: rgba(255,255,255,0.6); }
+
+      #sub1-1:checked ~ .sub-menu label[for="sub1-1"], #sub1-2:checked ~ .sub-menu label[for="sub1-2"], #sub1-3:checked ~ .sub-menu label[for="sub1-3"], #sub1-4:checked ~ .sub-menu label[for="sub1-4"],
+      #sub2-1:checked ~ .sub-menu label[for="sub2-1"], #sub2-2:checked ~ .sub-menu label[for="sub2-2"],
+      #sub3-1:checked ~ .sub-menu label[for="sub3-1"], #sub3-2:checked ~ .sub-menu label[for="sub3-2"] { color: #2e7d32; } 
+      
+      #sub1-1:checked ~ .sub-menu label[for="sub1-1"]:after, #sub1-2:checked ~ .sub-menu label[for="sub1-2"]:after, #sub1-3:checked ~ .sub-menu label[for="sub1-3"]:after, #sub1-4:checked ~ .sub-menu label[for="sub1-4"]:after,
+      #sub2-1:checked ~ .sub-menu label[for="sub2-1"]:after, #sub2-2:checked ~ .sub-menu label[for="sub2-2"]:after,
+      #sub3-1:checked ~ .sub-menu label[for="sub3-1"]:after, #sub3-2:checked ~ .sub-menu label[for="sub3-2"]:after { width: 100%; } 
+
+      #sub1-1:checked ~ .sub-content-area .sub-panel-1, #sub1-2:checked ~ .sub-content-area .sub-panel-2, #sub1-3:checked ~ .sub-content-area .sub-panel-3, #sub1-4:checked ~ .sub-content-area .sub-panel-4,
+      #sub2-1:checked ~ .sub-content-area .sub-panel-1, #sub2-2:checked ~ .sub-content-area .sub-panel-2,
+      #sub3-1:checked ~ .sub-content-area .sub-panel-1, #sub3-2:checked ~ .sub-content-area .sub-panel-2 { display: block; } 
+
+      .list-style { padding-left: 18px; }
+      .list-style li { font-size: 14px; color: #475569; margin-bottom: 12px; line-height: 1.6; } 
+      .section-sub { font-size: 16px; color: #1e293b; margin-bottom: 15px; font-weight: 700; } 
+      .page-text { font-size: 15px; line-height: 1.8; color: #475569; }
+
+      @media (max-width: 900px) { 
+        .book-container { flex-direction: column; height: auto; min-height: auto; border: 2px solid #81c784; border-radius: 16px; } 
+        .page-left, .page-right { flex: 1 1 auto; width: 100%; border: none; padding: 30px; } 
+        .page-left { border-bottom: 1px solid #f1f5f9; flex: 0 0 auto; border-radius: 12px 12px 0 0; }
+        .page-right { padding-top: 10px; border-radius: 0 0 12px 12px; }
+      }
+    `;
+
+    var styleElement = document.createElement('style');
+    styleElement.appendChild(document.createTextNode(cssRules));
+    document.getElementsByTagName('head')[0].appendChild(styleElement);
+  })();
+</script>
 
 </body>
 </html>
